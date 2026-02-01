@@ -7,7 +7,7 @@ public class Quiz
     public string? Description { get; set; }
     public QuizDifficulty Difficulty { get; set; } = QuizDifficulty.Medium;
     public bool IsActive { get; set; } = true;
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public ICollection<QuizQuestion> Questions { get; set; } = [];
     public ICollection<QuizResult> Results { get; set; } = [];

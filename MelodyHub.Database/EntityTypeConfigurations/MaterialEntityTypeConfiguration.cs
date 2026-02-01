@@ -8,17 +8,13 @@ public class MaterialEntityTypeConfiguration : IEntityTypeConfiguration<Material
 {
     public void Configure(EntityTypeBuilder<Material> builder)
     {
-        // Таблица
         builder.ToTable("Materials");
 
-        // Первичный ключ
         builder.HasKey(m => m.Id);
 
-        // Индексы
         builder.HasIndex(m => m.Name).IsUnique();
         builder.HasIndex(m => m.Category);
 
-        // Свойства
         builder.Property(m => m.Name)
             .IsRequired()
             .HasMaxLength(200);
@@ -36,10 +32,6 @@ public class MaterialEntityTypeConfiguration : IEntityTypeConfiguration<Material
         builder.Property(m => m.Category)
             .HasMaxLength(200);
 
-        builder.Property(m => m.CreatedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-        // Связь с InstrumentMaterials
         builder.HasMany(m => m.InstrumentMaterials)
             .WithOne(im => im.Material)
             .HasForeignKey(im => im.MaterialId)

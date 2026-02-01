@@ -22,9 +22,6 @@ public class QuizResultEntityTypeConfiguration : IEntityTypeConfiguration<QuizRe
         builder.Property(qr => qr.MaxScore)
             .IsRequired();
 
-        builder.Property(qr => qr.CompletedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
         builder.HasOne(qr => qr.User)
             .WithMany(u => u.QuizResults)
             .HasForeignKey(qr => qr.UserId)

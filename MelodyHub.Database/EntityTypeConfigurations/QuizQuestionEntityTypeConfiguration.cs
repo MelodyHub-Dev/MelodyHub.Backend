@@ -8,16 +8,12 @@ public class QuizQuestionEntityTypeConfiguration : IEntityTypeConfiguration<Quiz
 {
     public void Configure(EntityTypeBuilder<QuizQuestion> builder)
     {
-        // Таблица
         builder.ToTable("QuizQuestions");
 
-        // Первичный ключ
         builder.HasKey(qq => qq.Id);
 
-        // Индексы
         builder.HasIndex(qq => qq.QuizId);
 
-        // Свойства
         builder.Property(qq => qq.QuestionText)
             .IsRequired()
             .HasMaxLength(1000);
@@ -47,7 +43,6 @@ public class QuizQuestionEntityTypeConfiguration : IEntityTypeConfiguration<Quiz
             .IsRequired()
             .HasDefaultValue((byte)10);
 
-        // Связь с Quiz
         builder.HasOne(qq => qq.Quiz)
             .WithMany(q => q.Questions)
             .HasForeignKey(qq => qq.QuizId)

@@ -10,7 +10,7 @@ public class Blueprint
     public string? ImageUrl { get; set; }
     public string? VideoUrl { get; set; }
     public int? EstimatedTimeMinutes { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public Instrument Instrument { get; set; } = null!;
 }

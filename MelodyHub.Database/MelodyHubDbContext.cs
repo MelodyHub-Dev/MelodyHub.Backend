@@ -2,6 +2,7 @@
 using MelodyHub.Database.EntityTypeConfigurations;
 using MelodyHub.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace MelodyHub.Database;
 
@@ -24,7 +25,7 @@ public class MelodyHubDbContext(DbContextOptions<MelodyHubDbContext> options)
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfigurationsFromAssembly(typeof(MelodyHubDbContext).Assembly);
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(builder);
     }
 }

@@ -39,12 +39,6 @@ public class UserProjectTypeConfiguration : IEntityTypeConfiguration<UserProject
         builder.Property(up => up.Notes)
             .HasMaxLength(2000);
 
-        builder.Property(up => up.CreatedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-        builder.Property(up => up.UpdatedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
         builder.HasOne(up => up.User)
             .WithMany(u => u.Projects)
             .HasForeignKey(up => up.UserId)

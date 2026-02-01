@@ -2,12 +2,12 @@
 
 public class QuizResult
 {
-    public int Id { get; set; }
-    public int UserId { get; set; }
-    public int QuizId { get; set; }
+    public Guid Id { get; set; }
+    public Guid UserId { get; set; }
+    public Guid QuizId { get; set; }
     public int Score { get; set; }
     public int MaxScore { get; set; }
-    public DateTime CompletedAt { get; set; }
+    public DateTime CompletedAt { get; set; } = DateTime.Now;
 
     public User User { get; set; } = null!;
     public Quiz Quiz { get; set; } = null!;

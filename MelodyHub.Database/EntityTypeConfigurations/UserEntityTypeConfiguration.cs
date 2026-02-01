@@ -33,12 +33,6 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.IsVerifiedEmail)
             .HasDefaultValue(false);
 
-        builder.Property(u => u.CreatedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-        builder.Property(u => u.UpdatedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
         builder.HasMany(u => u.Projects)
             .WithOne(p => p.User)
             .HasForeignKey(p => p.UserId)

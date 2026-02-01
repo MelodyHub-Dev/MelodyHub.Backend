@@ -8,7 +8,7 @@ public class ArticleComment
     public Guid? ParentCommentId { get; set; }
     public string Content { get; set; } = string.Empty;
     public bool IsApproved { get; set; } = true;
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public BlogArticle Article { get; set; } = null!;
     public User User { get; set; } = null!;

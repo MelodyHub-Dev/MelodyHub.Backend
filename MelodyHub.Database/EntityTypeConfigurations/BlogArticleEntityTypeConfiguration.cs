@@ -39,12 +39,6 @@ public class BlogArticleEntityTypeConfiguration : IEntityTypeConfiguration<BlogA
         builder.Property(ba => ba.PublishedAt)
             .HasColumnType("datetime");
 
-        builder.Property(ba => ba.CreatedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-        builder.Property(ba => ba.UpdatedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
         builder.HasOne(ba => ba.Author)
             .WithMany(u => u.AuthoredArticles)
             .HasForeignKey(ba => ba.AuthorId)

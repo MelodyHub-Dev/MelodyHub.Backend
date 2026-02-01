@@ -23,9 +23,6 @@ public class ArticleCommentTypeConfiguration : IEntityTypeConfiguration<ArticleC
         builder.Property(ac => ac.IsApproved)
             .HasDefaultValue(true);
 
-        builder.Property(ac => ac.CreatedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
         builder.HasOne(ac => ac.Article)
             .WithMany(a => a.Comments)
             .HasForeignKey(ac => ac.ArticleId)

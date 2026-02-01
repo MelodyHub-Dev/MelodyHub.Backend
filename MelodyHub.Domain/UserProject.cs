@@ -15,8 +15,8 @@ public class UserProject
     public DateOnly? FinishDate { get; set; }
     public decimal? ActualCost { get; set; }
     public string? Notes { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime? UpdatedAt { get; set; }
 
     public User User { get; set; } = null!;
     public Instrument Instrument { get; set; } = null!;

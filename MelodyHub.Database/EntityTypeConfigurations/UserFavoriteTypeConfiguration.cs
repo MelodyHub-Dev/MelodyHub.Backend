@@ -12,9 +12,6 @@ public class UserFavoriteTypeConfiguration : IEntityTypeConfiguration<UserFavori
 
         builder.HasKey(uf => new { uf.UserId, uf.InstrumentId });
 
-        builder.Property(uf => uf.CreatedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
         builder.HasOne(uf => uf.User)
             .WithMany(u => u.Favorites)
             .HasForeignKey(uf => uf.UserId)

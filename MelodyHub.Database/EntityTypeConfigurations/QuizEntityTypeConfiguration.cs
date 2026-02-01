@@ -4,15 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MelodyHub.Database.EntityTypeConfigurations;
 
-namespace MelodyHub.Database.EntityTypeConfigurations;
-
 public class QuizEntityTypeConfiguration : IEntityTypeConfiguration<Quiz>
 {
     public void Configure(EntityTypeBuilder<Quiz> builder)
     {
         builder.ToTable("Quizzes");
 
-        // Первичный ключ
         builder.HasKey(q => q.Id);
 
         builder.HasIndex(q => q.Title);
@@ -31,9 +28,6 @@ public class QuizEntityTypeConfiguration : IEntityTypeConfiguration<Quiz>
 
         builder.Property(q => q.IsActive)
             .HasDefaultValue(true);
-
-        builder.Property(q => q.CreatedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
         builder.HasMany(q => q.Questions)
             .WithOne(qq => qq.Quiz)

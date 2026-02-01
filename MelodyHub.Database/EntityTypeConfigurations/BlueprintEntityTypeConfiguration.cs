@@ -31,9 +31,6 @@ public class BlueprintEntityTypeConfiguration : IEntityTypeConfiguration<Bluepri
         builder.Property(b => b.EstimatedTimeMinutes)
             .HasDefaultValue(null);
 
-        builder.Property(b => b.CreatedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
         builder.HasOne(b => b.Instrument)
             .WithMany(i => i.Blueprints)
             .HasForeignKey(b => b.InstrumentId)

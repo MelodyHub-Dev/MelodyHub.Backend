@@ -13,8 +13,8 @@ public class Instrument
     public int? EstimatedHours { get; set; }
     public string? MainImageUrl { get; set; }
     public int ViewsCount { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime? UpdatedAt { get; set; }
 
     public InstrumentCategory Category { get; set; } = null!;
     public ICollection<Blueprint> Blueprints { get; set; } = [];
