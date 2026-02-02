@@ -1,4 +1,5 @@
-﻿using MelodyHub.Application.Common.Exceptions;
+﻿using FluentValidation;
+using MelodyHub.Application.Common.Exceptions;
 using System.Net;
 using System.Text.Json;
 
@@ -26,6 +27,9 @@ public class CustomExceptionHandlerMiddleware(RequestDelegate next)
         {
             case NotFoundException:
                 code = HttpStatusCode.NotFound;
+                break;
+            case ValidationException:
+                code = HttpStatusCode.BadRequest;
                 break;
         }
         context.Response.ContentType = "application/json";
