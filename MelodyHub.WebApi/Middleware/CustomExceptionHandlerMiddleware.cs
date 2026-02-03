@@ -25,6 +25,9 @@ public class CustomExceptionHandlerMiddleware(RequestDelegate next)
         var result = string.Empty;
         switch (exception)
         {
+            case BadRequestException:
+                code = HttpStatusCode.BadRequest;
+                break;
             case NotFoundException:
                 code = HttpStatusCode.NotFound;
                 break;
