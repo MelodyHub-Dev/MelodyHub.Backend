@@ -8,8 +8,6 @@ public class InstrumentEntityTypeConfiguration : IEntityTypeConfiguration<Instru
 {
     public void Configure(EntityTypeBuilder<Instrument> builder)
     {
-        builder.ToTable("Instruments");
-
         builder.HasKey(i => i.Id);
 
         builder.HasIndex(i => i.Name).IsUnique();

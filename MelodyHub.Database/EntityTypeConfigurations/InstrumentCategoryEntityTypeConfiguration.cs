@@ -8,8 +8,6 @@ public class InstrumentCategoryEntityTypeConfiguration : IEntityTypeConfiguratio
 {
     public void Configure(EntityTypeBuilder<InstrumentCategory> builder)
     {
-        builder.ToTable("InstrumentCategories");
-
         builder.HasKey(ic => ic.Id);
 
         builder.HasIndex(ic => ic.Name).IsUnique();

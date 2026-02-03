@@ -8,8 +8,6 @@ public class BlogArticleEntityTypeConfiguration : IEntityTypeConfiguration<BlogA
 {
     public void Configure(EntityTypeBuilder<BlogArticle> builder)
     {
-        builder.ToTable("BlogArticles");
-
         builder.HasKey(ba => ba.Id);
 
         builder.HasIndex(ba => ba.Title);

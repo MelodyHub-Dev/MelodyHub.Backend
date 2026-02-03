@@ -8,8 +8,6 @@ public class UserProjectTypeConfiguration : IEntityTypeConfiguration<UserProject
 {
     public void Configure(EntityTypeBuilder<UserProject> builder)
     {
-        builder.ToTable("UserProjects");
-
         builder.HasKey(up => up.Id);
 
         builder.HasIndex(up => new { up.UserId, up.Name }).IsUnique();

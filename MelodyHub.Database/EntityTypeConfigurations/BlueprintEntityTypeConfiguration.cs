@@ -8,8 +8,6 @@ public class BlueprintEntityTypeConfiguration : IEntityTypeConfiguration<Bluepri
 {
     public void Configure(EntityTypeBuilder<Blueprint> builder)
     {
-        builder.ToTable("Blueprints");
-
         builder.HasKey(b => b.Id);
 
         builder.HasIndex(b => new { b.InstrumentId, b.StepNumber }).IsUnique();

@@ -8,8 +8,6 @@ public class InstrumentMaterialEntityTypeConfiguration : IEntityTypeConfiguratio
 {
     public void Configure(EntityTypeBuilder<InstrumentMaterial> builder)
     {
-        builder.ToTable("InstrumentMaterials");
-
         builder.HasKey(im => new { im.InstrumentId, im.MaterialId });
 
         builder.Property(im => im.Quantity)

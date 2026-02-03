@@ -8,8 +8,6 @@ public class ArticleCommentTypeConfiguration : IEntityTypeConfiguration<ArticleC
 {
     public void Configure(EntityTypeBuilder<ArticleComment> builder)
     {
-        builder.ToTable("ArticleComments");
-
         builder.HasKey(ac => ac.Id);
 
         builder.HasIndex(ac => ac.ArticleId);

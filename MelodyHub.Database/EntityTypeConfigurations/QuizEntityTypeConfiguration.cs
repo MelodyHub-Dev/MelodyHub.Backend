@@ -8,8 +8,6 @@ public class QuizEntityTypeConfiguration : IEntityTypeConfiguration<Quiz>
 {
     public void Configure(EntityTypeBuilder<Quiz> builder)
     {
-        builder.ToTable("Quizzes");
-
         builder.HasKey(q => q.Id);
 
         builder.HasIndex(q => q.Title);

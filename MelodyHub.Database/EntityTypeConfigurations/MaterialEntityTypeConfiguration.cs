@@ -8,8 +8,6 @@ public class MaterialEntityTypeConfiguration : IEntityTypeConfiguration<Material
 {
     public void Configure(EntityTypeBuilder<Material> builder)
     {
-        builder.ToTable("Materials");
-
         builder.HasKey(m => m.Id);
 
         builder.HasIndex(m => m.Name).IsUnique();

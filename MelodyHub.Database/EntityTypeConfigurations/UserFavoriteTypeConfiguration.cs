@@ -8,8 +8,6 @@ public class UserFavoriteTypeConfiguration : IEntityTypeConfiguration<UserFavori
 {
     public void Configure(EntityTypeBuilder<UserFavorite> builder)
     {
-        builder.ToTable("UserFavorites");
-
         builder.HasKey(uf => new { uf.UserId, uf.InstrumentId });
 
         builder.HasOne(uf => uf.User)
