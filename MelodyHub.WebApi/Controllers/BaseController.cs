@@ -18,7 +18,8 @@ public abstract class BaseController : ControllerBase
         get
         {
             if (!User.Identity?.IsAuthenticated ?? false)
-                return Guid.Empty;
+                //TODO: реализовать авторизацию в будущем
+                return Guid.NewGuid();
 
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)
                 ?? User.FindFirst("sub")
