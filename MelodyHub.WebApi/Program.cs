@@ -3,12 +3,22 @@ using MelodyHub.Application.Common.Mappings;
 using MelodyHub.Application.Interfaces;
 using MelodyHub.Database;
 using MelodyHub.WebApi.Middleware;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
+
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "MelodyHub WebAPI",
+        Version = "v1"
+    });
+});
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
@@ -32,10 +42,15 @@ var app = builder.Build();
 
 using var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<MelodyHubDbContext>();
-Console.WriteLine(context.Materials);
 
 DbContextInitializer.Initialize(context);
 
+app.UseSwagger();
+app.UseSwaggerUI(config =>
+{
+    config.RoutePrefix = string.Empty;
+    config.SwaggerEndpoint("/swagger/v1/swagger.json", "Hooome API");
+});
 app.UseCustomExceptionHandler();
 app.UseRouting();
 app.UseHttpsRedirection();
