@@ -9,6 +9,6 @@ public class GetInstrumentCategoryDetailsQueryValidator
     {
         RuleFor(x => x.Id)
             .NotEqual(Guid.Empty)
-            .WithMessage("User Id must not be empty");
+            .WithMessage("Instrument Category Id must not be empty");
     }
 }

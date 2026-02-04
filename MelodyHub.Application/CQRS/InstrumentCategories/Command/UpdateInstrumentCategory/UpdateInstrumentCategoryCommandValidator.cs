@@ -9,7 +9,7 @@ public class UpdateInstrumentCategoryCommandValidator
     {
         RuleFor(x => x.Id)
             .NotEqual(Guid.Empty)
-            .WithMessage("User Id must not be empty");
+            .WithMessage("Instrument Category Id must not be empty");
 
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Category name is required")
