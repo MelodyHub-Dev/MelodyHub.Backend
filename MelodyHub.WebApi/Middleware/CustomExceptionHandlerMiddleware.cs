@@ -25,6 +25,9 @@ public class CustomExceptionHandlerMiddleware(RequestDelegate next)
         var result = string.Empty;
         switch (exception)
         {
+            case ConflictException:
+                code = HttpStatusCode.Conflict;
+                break;
             case BadRequestException:
                 code = HttpStatusCode.BadRequest;
                 break;
