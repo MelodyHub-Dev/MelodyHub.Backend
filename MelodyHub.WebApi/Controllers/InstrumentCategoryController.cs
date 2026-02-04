@@ -36,7 +36,7 @@ public class InstrumentCategoryController(IMapper mapper) : BaseController
     }
 
     [HttpPost("create")]
-    public async Task<ActionResult<Guid>> Create(CreateInstrumentCategoryDto dto)
+    public async Task<ActionResult<Guid>> Create([FromBody] CreateInstrumentCategoryDto dto)
     {
         var command = mapper.Map<CreateInstrumentCategoryCommand>(dto);
 
@@ -46,7 +46,7 @@ public class InstrumentCategoryController(IMapper mapper) : BaseController
     }
 
     [HttpPut("update")]
-    public async Task<ActionResult> Update(UpdateInstrumentCategoryDto dto)
+    public async Task<ActionResult> Update([FromBody] UpdateInstrumentCategoryDto dto)
     {
         var command = mapper.Map<UpdateInstrumentCategoryCommand>(dto);
 
