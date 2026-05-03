@@ -7,6 +7,7 @@ public interface IMelodyHubDbContext
 {
     DbSet<User> Users { get; }
     DbSet<UserProject> UserProjects { get; }
+    DbSet<ProjectNote> ProjectNotes { get; }
     DbSet<UserFavorite> UserFavorites { get; }
     DbSet<BlogArticle> BlogArticles { get; }
     DbSet<ArticleComment> ArticleComments { get; }

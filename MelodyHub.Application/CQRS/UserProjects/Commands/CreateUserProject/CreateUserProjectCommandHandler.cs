@@ -30,7 +30,7 @@ public class CreateUserProjectCommandHandler(IMelodyHubDbContext context)
             StartDate = request.StartDate,
             FinishDate = request.FinishDate,
             ActualCost = request.ActualCost,
-            Notes = request.Notes,
+            Notes = [],
         };
 
         await context.UserProjects.AddAsync(newUserProject, cancellationToken);

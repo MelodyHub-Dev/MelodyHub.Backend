@@ -11,7 +11,14 @@ public class GetBlueprintListQueryHandler(IMelodyHubDbContext context, IMapper m
 {
     public async Task<BlueprintListVm> Handle(GetBlueprintListQuery request, CancellationToken cancellationToken)
     {
-        var blueprints = await context.Blueprints
+        var query = context.Blueprints.AsQueryable();
+
+        if (request.InstrumentId.HasValue)
+        {
+            query = query.Where(b => b.InstrumentId == request.InstrumentId.Value);
+        }
+
+        var blueprints = await query
             .ProjectTo<BlueprintListLookupDto>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 

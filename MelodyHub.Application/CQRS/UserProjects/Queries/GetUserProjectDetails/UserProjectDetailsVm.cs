@@ -17,7 +17,6 @@ public class UserProjectDetailsVm : IMapWith<UserProject>
     public DateOnly? StartDate { get; set; }
     public DateOnly? FinishDate { get; set; }
     public decimal? ActualCost { get; set; }
-    public string? Notes { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? UpdatedAt { get; set; }
 

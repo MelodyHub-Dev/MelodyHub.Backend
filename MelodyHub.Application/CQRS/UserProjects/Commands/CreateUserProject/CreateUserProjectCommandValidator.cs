@@ -23,15 +23,5 @@ public class CreateUserProjectCommandValidator
 
         RuleFor(x => x.Progress)
             .InclusiveBetween((byte)0, (byte)100).WithMessage("Progress must be 0-100%");
-
-        RuleFor(x => x.Status)
-            .Equal(ProjectStatus.Planned)
-            .When(x => x.Status != ProjectStatus.InProgress)
-            .WithMessage("New projects should be Planned by default");
-
-        RuleFor(x => x.Progress)
-            .Equal((byte)0)
-            .When(x => x.Status == ProjectStatus.Planned)
-            .WithMessage("Planned projects should have 0% progress");
     }
 }

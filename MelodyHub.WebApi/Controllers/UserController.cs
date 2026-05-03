@@ -2,6 +2,7 @@
 using MelodyHub.Application.CQRS.Users.Commands.CreateUser;
 using MelodyHub.Application.CQRS.Users.Commands.DeleteUser;
 using MelodyHub.Application.CQRS.Users.Commands.UpdateUser;
+using MelodyHub.Application.CQRS.Users.Commands.UploadAvatar;
 using MelodyHub.Application.CQRS.Users.Queries.GetUserDetails;
 using MelodyHub.Application.CQRS.Users.Queries.GetUserList;
 using MelodyHub.WebApi.Models;
@@ -56,6 +57,26 @@ public class UserController(IMapper mapper) : BaseController
         await Mediator.Send(command);
 
         return NoContent();
+    }
+
+    [HttpPost("{id:guid}/avatar")]
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<string>> UploadAvatar(Guid id, IFormFile file)
+    {
+        if (file is null || file.Length == 0)
+            return BadRequest("Файл не выбран");
+
+        var command = new UploadAvatarCommand
+        {
+            UserId = id,
+            FileStream = file.OpenReadStream(),
+            FileName = file.FileName,
+            ContentType = file.ContentType
+        };
+
+        var url = await Mediator.Send(command);
+
+        return Ok(new { avatarUrl = url });
     }
 
     [HttpDelete("delete/{id:guid}")]

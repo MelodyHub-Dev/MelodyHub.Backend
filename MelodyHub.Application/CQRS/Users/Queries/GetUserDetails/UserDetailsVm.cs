@@ -15,6 +15,7 @@ public class UserDetailsVm : IMapWith<User>
     public bool IsVerifiedEmail { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? UpdatedAt { get; set; }
+    public string? AvatarUrl { get; set; }
 
     public void Mapping(Profile profile)
         => profile.CreateMap<User, UserDetailsVm>();

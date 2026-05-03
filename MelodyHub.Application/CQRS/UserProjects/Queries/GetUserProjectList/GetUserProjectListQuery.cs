@@ -4,5 +4,6 @@ namespace MelodyHub.Application.CQRS.UserProjects.Queries.GetUserProjectList;
 
 public class GetUserProjectListQuery : IRequest<UserProjectListVm>
 {
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
+    public Guid? InstrumentId { get; set; }
 }

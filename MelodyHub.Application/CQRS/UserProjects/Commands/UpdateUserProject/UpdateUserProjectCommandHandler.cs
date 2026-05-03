@@ -21,7 +21,6 @@ public class UpdateUserProjectCommandHandler(IMelodyHubDbContext context)
         userProject.StartDate = request.StartDate;
         userProject.FinishDate = request.FinishDate;
         userProject.ActualCost = request.ActualCost;
-        userProject.Notes = request.Notes;
 
         await context.SaveChangesAsync(cancellationToken);
     }

@@ -34,9 +34,6 @@ public class UserProjectTypeConfiguration : IEntityTypeConfiguration<UserProject
         builder.Property(up => up.ActualCost)
             .HasColumnType("decimal(18,2)");
 
-        builder.Property(up => up.Notes)
-            .HasMaxLength(2000);
-
         builder.HasOne(up => up.User)
             .WithMany(u => u.Projects)
             .HasForeignKey(up => up.UserId)
@@ -46,5 +43,10 @@ public class UserProjectTypeConfiguration : IEntityTypeConfiguration<UserProject
             .WithMany(i => i.UserProjects)
             .HasForeignKey(up => up.InstrumentId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(up => up.Notes)
+            .WithOne(n => n.UserProject)
+            .HasForeignKey(n => n.UserProjectId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

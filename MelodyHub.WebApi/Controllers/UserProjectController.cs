@@ -12,22 +12,27 @@ namespace MelodyHub.WebApi.Controllers;
 [Route("/api/user-projects")]
 public class UserProjectController(IMapper mapper) : BaseController
 {
-    [HttpGet]
-    public async Task<ActionResult<UserProjectDetailsVm>> Get([FromBody] GetUserProjectDetailsDto dto)
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<UserProjectDetailsVm>> GetById(Guid id)
     {
-        var query = mapper.Map<GetUserProjectDetailsQuery>(dto);
+        var query = new GetUserProjectDetailsQuery
+        {
+            UserProjectId = id,
+            UserId = UserId
+        };
 
         var userProject = await Mediator.Send(query);
 
         return Ok(userProject);
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<UserProjectListVm>> Get(Guid id)
+    [HttpGet("user/{id:guid}")]
+    public async Task<ActionResult<UserProjectListVm>> GetByUserId(Guid id, [FromQuery] Guid? instrumentId)
     {
         var query = new GetUserProjectListQuery 
         { 
-            UserId = id
+            UserId = id,
+            InstrumentId = instrumentId
         };
 
         var userProejects = await Mediator.Send(query);

@@ -8,6 +8,7 @@ public class Blueprint
     public int StepNumber { get; set; }
     public string Content { get; set; } = string.Empty;
     public string? ImageUrl { get; set; }
+    public string? DrawingUrl { get; set; }
     public string? VideoUrl { get; set; }
     public int? EstimatedTimeMinutes { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;

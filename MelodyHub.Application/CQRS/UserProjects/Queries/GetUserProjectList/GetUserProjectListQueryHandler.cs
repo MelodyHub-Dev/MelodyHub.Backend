@@ -11,8 +11,19 @@ public class GetUserProjectListQueryHandler(IMelodyHubDbContext context, IMapper
 {
     public async Task<UserProjectListVm> Handle(GetUserProjectListQuery request, CancellationToken cancellationToken)
     {
-        var userProjects = await context.UserProjects
-            .Where(x => x.UserId == request.UserId)
+        var query = context.UserProjects.AsQueryable();
+
+        if (request.UserId.HasValue)
+        {
+            query = query.Where(x => x.UserId == request.UserId.Value);
+        }
+
+        if (request.InstrumentId.HasValue)
+        {
+            query = query.Where(x => x.InstrumentId == request.InstrumentId.Value);
+        }
+
+        var userProjects = await query
             .ProjectTo<UserProjectListLookupDto>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 

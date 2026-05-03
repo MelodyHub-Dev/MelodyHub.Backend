@@ -8,6 +8,7 @@ namespace MelodyHub.Application.CQRS.UserProjects.Queries.GetUserProjectList;
 public class UserProjectListLookupDto : IMapWith<UserProject>
 {
     public Guid Id { get; set; }
+    public Guid InstrumentId { get; set; }
     public string Name { get; set; } = string.Empty;
     public ProjectStatus Status { get; set; } = ProjectStatus.Planned;
     public byte Progress { get; set; }

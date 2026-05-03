@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 
 namespace MelodyHub.WebApi.Controllers;
@@ -17,20 +18,11 @@ public abstract class BaseController : ControllerBase
     {
         get
         {
-            if (!User.Identity?.IsAuthenticated ?? false)
-                //TODO: реализовать авторизацию в будущем
-                return Guid.NewGuid();
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier)
+                     ?? User.FindFirst(JwtRegisteredClaimNames.Sub)
+                     ?? User.FindFirst("sub");
 
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)
-                ?? User.FindFirst("sub")
-                ?? User.FindFirst("uid");
-
-            if (userIdClaim == null || string.IsNullOrWhiteSpace(userIdClaim.Value))
-                return Guid.Empty;
-
-            return Guid.TryParse(userIdClaim.Value, out var userId)
-                ? userId
-                : Guid.Empty;
+            return claim != null && Guid.TryParse(claim.Value, out var id) ? id : Guid.Empty;
         }
     }
 }

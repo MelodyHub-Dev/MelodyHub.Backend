@@ -11,6 +11,7 @@ public class MelodyHubDbContext(DbContextOptions<MelodyHubDbContext> options)
 {
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<UserProject> UserProjects { get; set; } = null!;
+    public DbSet<ProjectNote> ProjectNotes { get; set; } = null!;
     public DbSet<UserFavorite> UserFavorites { get; set; } = null!;
     public DbSet<BlogArticle> BlogArticles { get; set; } = null!;
     public DbSet<ArticleComment> ArticleComments { get; set; } = null!;

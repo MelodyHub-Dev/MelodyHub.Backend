@@ -8,7 +8,13 @@ public class GetUserProjectListQueryValidator
     public GetUserProjectListQueryValidator()
     {
         RuleFor(x => x.UserId)
-            .NotEmpty().WithMessage("User ID is required")
-            .NotEqual(Guid.Empty).WithMessage("Invalid user ID");
+            .NotEmpty()
+            .NotEqual(Guid.Empty)
+            .When(x => x.UserId.HasValue);
+
+        RuleFor(x => x.InstrumentId)
+            .NotEmpty()
+            .NotEqual(Guid.Empty)
+            .When(x => x.InstrumentId.HasValue);
     }
 }

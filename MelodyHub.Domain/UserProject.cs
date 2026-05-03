@@ -14,12 +14,12 @@ public class UserProject
     public DateOnly? StartDate { get; set; }
     public DateOnly? FinishDate { get; set; }
     public decimal? ActualCost { get; set; }
-    public string? Notes { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? UpdatedAt { get; set; }
 
     public User User { get; set; } = null!;
     public Instrument Instrument { get; set; } = null!;
+    public ICollection<ProjectNote> Notes { get; set; } = new List<ProjectNote>();
 
     public bool IsCompleted => Status == ProjectStatus.Completed;
     public string? Duration => StartDate.HasValue && FinishDate.HasValue

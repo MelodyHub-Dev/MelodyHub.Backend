@@ -13,9 +13,12 @@ namespace MelodyHub.WebApi.Controllers;
 public class BlueprintController(IMapper mapper) : BaseController
 {
     [HttpGet]
-    public async Task<ActionResult<BlueprintListVm>> Get()
+    public async Task<ActionResult<BlueprintListVm>> Get([FromQuery] Guid? instrumentId)
     {
-        var query = new GetBlueprintListQuery();
+        var query = new GetBlueprintListQuery
+        {
+            InstrumentId = instrumentId
+        };
 
         var blueprints = await Mediator.Send(query);
 
