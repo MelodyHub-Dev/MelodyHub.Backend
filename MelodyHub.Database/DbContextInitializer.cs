@@ -13,7 +13,8 @@ public class DbContextInitializer
             context.Instruments.Any() ||
             context.Materials.Any() ||
             context.InstrumentMaterials.Any() ||
-            context.BlogArticles.Any())
+            context.BlogArticles.Any() ||
+            context.Quizzes.Any())
         {
             return;
         }
@@ -22,6 +23,7 @@ public class DbContextInitializer
         SeedMaterials(context);
         SeedInstruments(context);
         SeedBlogArticles(context);
+        SeedQuizzes(context);
     }
 
     private static void SeedCategories(MelodyHubDbContext context)
@@ -1028,6 +1030,183 @@ public class DbContextInitializer
         };
 
         context.BlogArticles.AddRange(blogArticles);
+        context.SaveChanges();
+    }
+
+    private static void SeedQuizzes(MelodyHubDbContext context)
+    {
+        var quizzes = new List<Quiz>
+        {
+            new Quiz
+            {
+                Id = Guid.NewGuid(),
+                Title = "Основы акустики",
+                Description = "Проверьте свои знания о физике звука и акустических инструментах",
+                Difficulty = QuizDifficulty.Easy,
+                IsActive = true,
+                CreatedAt = DateTime.Now.AddDays(-30)
+            },
+            new Quiz
+            {
+                Id = Guid.NewGuid(),
+                Title = "Материалы для инструментов",
+                Description = "Узнайте, какие материалы лучше всего подходят для разных типов инструментов",
+                Difficulty = QuizDifficulty.Medium,
+                IsActive = true,
+                CreatedAt = DateTime.Now.AddDays(-20)
+            },
+            new Quiz
+            {
+                Id = Guid.NewGuid(),
+                Title = "История музыкальных инструментов",
+                Description = "Погрузитесь в историю создания и развития музыкальных инструментов",
+                Difficulty = QuizDifficulty.Hard,
+                IsActive = true,
+                CreatedAt = DateTime.Now.AddDays(-10)
+            }
+        };
+
+        context.Quizzes.AddRange(quizzes);
+        context.SaveChanges();
+
+        // Добавляем вопросы для первой викторины (Основы акустики)
+        var quiz1 = quizzes[0];
+        var questions1 = new List<QuizQuestion>
+        {
+            new QuizQuestion
+            {
+                Id = Guid.NewGuid(),
+                QuizId = quiz1.Id,
+                QuestionText = "Что такое частота звука?",
+                OptionA = "Громкость звука",
+                OptionB = "Высота звука в герцах",
+                OptionC = "Длительность звука",
+                OptionD = "Тембр звука",
+                CorrectAnswer = 'b',
+                Explanation = "Частота измеряется в герцах (Гц) и определяет высоту звука. Чем выше частота, тем выше звук.",
+                Points = 10
+            },
+            new QuizQuestion
+            {
+                Id = Guid.NewGuid(),
+                QuizId = quiz1.Id,
+                QuestionText = "Какой материал лучше всего резонирует для корпуса гитары?",
+                OptionA = "Пластик",
+                OptionB = "Клён",
+                OptionC = "Сосна",
+                OptionD = "Ель",
+                CorrectAnswer = 'b',
+                Explanation = "Клён обладает отличными акустическими свойствами и используется для изготовления корпусов многих инструментов.",
+                Points = 10
+            },
+            new QuizQuestion
+            {
+                Id = Guid.NewGuid(),
+                QuizId = quiz1.Id,
+                QuestionText = "Что такое резонанс?",
+                OptionA = "Отражение звука от поверхности",
+                OptionB = "Усиление звука при совпадении частот",
+                OptionC = "Искажение звука",
+                OptionD = "Поглощение звука",
+                CorrectAnswer = 'b',
+                Explanation = "Резонанс - это явление, при котором амплитуда колебаний возрастает при совпадении собственной частоты системы с частотой внешнего воздействия.",
+                Points = 10
+            }
+        };
+
+        // Добавляем вопросы для второй викторины (Материалы)
+        var quiz2 = quizzes[1];
+        var questions2 = new List<QuizQuestion>
+        {
+            new QuizQuestion
+            {
+                Id = Guid.NewGuid(),
+                QuizId = quiz2.Id,
+                QuestionText = "Какая древесина традиционно используется для верхней деки акустической гитары?",
+                OptionA = "Клён",
+                OptionB = "Ель",
+                OptionC = "Дуб",
+                OptionD = "Орех",
+                CorrectAnswer = 'b',
+                Explanation = "Ель обладает легкостью и отличными резонансными свойствами, что делает её идеальной для верхней деки.",
+                Points = 10
+            },
+            new QuizQuestion
+            {
+                Id = Guid.NewGuid(),
+                QuizId = quiz2.Id,
+                QuestionText = "Какой материал используется для изготовления струн?",
+                OptionA = "Нейлон",
+                OptionB = "Сталь",
+                OptionC = "Оба варианта верны",
+                OptionD = "Ни один из вариантов",
+                CorrectAnswer = 'c',
+                Explanation = "Струны могут быть как нейлоновыми (для классических гитар), так и стальными (для акустических и электрогитар).",
+                Points = 10
+            },
+            new QuizQuestion
+            {
+                Id = Guid.NewGuid(),
+                QuizId = quiz2.Id,
+                QuestionText = "Что такое палисандровое дерево?",
+                OptionA = "Искусственный материал",
+                OptionB = "Тропическая древесина",
+                OptionC = "Металлический сплав",
+                OptionD = "Пластик",
+                CorrectAnswer = 'b',
+                Explanation = "Палисандр - это тропическая древесина, часто используемая для грифов и декоративных элементов инструментов.",
+                Points = 10
+            }
+        };
+
+        // Добавляем вопросы для третьей викторины (История)
+        var quiz3 = quizzes[2];
+        var questions3 = new List<QuizQuestion>
+        {
+            new QuizQuestion
+            {
+                Id = Guid.NewGuid(),
+                QuizId = quiz3.Id,
+                QuestionText = "В каком веке была изобретена скрипка?",
+                OptionA = "XV век",
+                OptionB = "XVI век",
+                OptionC = "XVII век",
+                OptionD = "XIV век",
+                CorrectAnswer = 'b',
+                Explanation = "Современная скрипка в её классическом виде была создана в Италии в XVI веке мастерами Андреа Амати и его семьёй.",
+                Points = 10
+            },
+            new QuizQuestion
+            {
+                Id = Guid.NewGuid(),
+                QuizId = quiz3.Id,
+                QuestionText = "Кто считается отцом современной гитары?",
+                OptionA = "Антонио Страдивари",
+                OptionB = "Адольфо Санс",
+                OptionC = "Лютер Берлин",
+                OptionD = "Орландо Смит",
+                CorrectAnswer = 'b',
+                Explanation = "Адольфо Санс испанский гитарист и мастер, который считается отцом современной классической гитары.",
+                Points = 10
+            },
+            new QuizQuestion
+            {
+                Id = Guid.NewGuid(),
+                QuizId = quiz3.Id,
+                QuestionText = "Какой инструмент является предком фортепиано?",
+                OptionA = "Клавесин",
+                OptionB = "Орган",
+                OptionC = "Челеста",
+                OptionD = "Спинет",
+                CorrectAnswer = 'a',
+                Explanation = "Клавесин был одним из основных предшественников фортепиано, изобретённым в XV веке.",
+                Points = 10
+            }
+        };
+
+        context.QuizQuestions.AddRange(questions1);
+        context.QuizQuestions.AddRange(questions2);
+        context.QuizQuestions.AddRange(questions3);
         context.SaveChanges();
     }
 }
