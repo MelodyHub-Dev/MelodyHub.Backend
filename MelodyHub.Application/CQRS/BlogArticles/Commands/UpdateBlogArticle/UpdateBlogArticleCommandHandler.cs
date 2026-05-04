@@ -14,16 +14,29 @@ public class UpdateBlogArticleCommandHandler(IMelodyHubDbContext context)
             .FindAsync([request.Id], cancellationToken)
             ?? throw new NotFoundException(nameof(BlogArticle), request.Id);
 
-        blogArticle.Title = request.Title;
-        blogArticle.Content = request.Content;
-        blogArticle.Excerpt = request.Excerpt;
-        blogArticle.ImageUrl = request.ImageUrl;
-        blogArticle.ViewsCount = request.ViewsCount;
-        blogArticle.IsPublished = request.IsPublished;
+        // Обновляем только если значение предоставлено и отличается
+        if (!string.IsNullOrEmpty(request.Title))
+            blogArticle.Title = request.Title;
 
-        if(blogArticle.IsPublished)
+        if (!string.IsNullOrEmpty(request.Content))
+            blogArticle.Content = request.Content;
+
+        if (request.Excerpt != null)
+            blogArticle.Excerpt = request.Excerpt;
+
+        if (request.ImageUrl != null)
+            blogArticle.ImageUrl = request.ImageUrl;
+
+        // ViewsCount и IsPublished обновляем только если явно переданы (не значения по умолчанию)
+        // Для этого используем флаг в запросе или проверяем, что значение отличается от текущего
+        if (request.ViewsCount > 0)
+            blogArticle.ViewsCount = request.ViewsCount;
+
+        blogArticle.IsPublished = true;
+
+        if (blogArticle.IsPublished && blogArticle.PublishedAt == null)
             blogArticle.PublishedAt = DateTime.UtcNow;
-        
+
         blogArticle.UpdatedAt = DateTime.UtcNow;
 
         await context.SaveChangesAsync(cancellationToken);

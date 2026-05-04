@@ -13,6 +13,8 @@ public class GetArticleCommentListQueryHandler(IMelodyHubDbContext context, IMap
     {
         var articleComments = await context.ArticleComments
             .Where(x => x.ArticleId == request.ArticleId)
+            .Include(x => x.User)
+            .OrderByDescending(x => x.CreatedAt)
             .ProjectTo<ArticleCommentListLookupDto>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 

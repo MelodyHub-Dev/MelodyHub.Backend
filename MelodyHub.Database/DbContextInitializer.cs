@@ -9,10 +9,11 @@ public class DbContextInitializer
     {
         context.Database.EnsureCreated();
 
-        if (context.InstrumentCategories.Any() || 
-            context.Instruments.Any() || 
+        if (context.InstrumentCategories.Any() ||
+            context.Instruments.Any() ||
             context.Materials.Any() ||
-            context.InstrumentMaterials.Any())
+            context.InstrumentMaterials.Any() ||
+            context.BlogArticles.Any())
         {
             return;
         }
@@ -20,6 +21,7 @@ public class DbContextInitializer
         SeedCategories(context);
         SeedMaterials(context);
         SeedInstruments(context);
+        SeedBlogArticles(context);
     }
 
     private static void SeedCategories(MelodyHubDbContext context)
@@ -938,6 +940,94 @@ public class DbContextInitializer
         });
 
         context.Blueprints.AddRange(blueprints);
+        context.SaveChanges();
+    }
+
+
+    private static void SeedBlogArticles(MelodyHubDbContext context)
+    {
+        var user = new User
+        {
+            Id = Guid.Parse("a1b2c3d4-e5f6-7890-abcd-ef1234567890"),
+            Email = "user@gmail.com",
+            PasswordHash = "asd",
+            Role = UserRole.User,
+            IsVerifiedEmail = true
+        };
+
+        context.Add(user);
+        context.SaveChanges();
+
+        var blogArticles = new List<BlogArticle>
+        {
+            new BlogArticle
+            {
+                Id = Guid.NewGuid(),
+                Title = "Как выбрать первую гитару",
+                Content = "В этой статье мы расскажем о всех критериях выбора первой гитары. От материала корпуса до размера грифа - мы разберем все, что важно для начинающего музыканта.",
+                Excerpt = "Полное руководство по выбору первой гитары для начинающих. Что смотреть при покупке?",
+                AuthorId = Guid.Parse("a1b2c3d4-e5f6-7890-abcd-ef1234567890"),
+                ImageUrl = "",
+                ViewsCount = 1250,
+                IsPublished = true,
+                PublishedAt = DateTime.Now.AddDays(-30),
+                CreatedAt = DateTime.Now.AddDays(-30)
+            },
+            new BlogArticle
+            {
+                Id = Guid.NewGuid(),
+                Title = "Основы настройки инструментов",
+                Content = "Настройка инструмента - это фундамент для любого музыканта. В этой статье мы разберем стандартные и альтернативные настройки для разных инструментов.",
+                Excerpt = "Узнайте как правильно настраивать свои инструменты для идеального звучания.",
+                AuthorId = Guid.Parse("a1b2c3d4-e5f6-7890-abcd-ef1234567890"),
+                ImageUrl = "",
+                ViewsCount = 890,
+                IsPublished = true,
+                PublishedAt = DateTime.Now.AddDays(-20),
+                CreatedAt = DateTime.Now.AddDays(-20)
+            },
+            new BlogArticle
+            {
+                Id = Guid.NewGuid(),
+                Title = "Топ-5 материалов для начинающих",
+                Content = "Какие материалы лучше всего подходят для первых проектов? Мы составили рейтинг самых доступных и качественных материалов для начинающих мастеров.",
+                Excerpt = "Обзор лучших материалов для начинающих лутейщиков с ценами и характеристиками.",
+                AuthorId = Guid.Parse("a1b2c3d4-e5f6-7890-abcd-ef1234567890"),
+                ImageUrl = "",
+                ViewsCount = 650,
+                IsPublished = true,
+                PublishedAt = DateTime.Now.AddDays(-15),
+                CreatedAt = DateTime.Now.AddDays(-15)
+            },
+            new BlogArticle
+            {
+                Id = Guid.NewGuid(),
+                Title = "Секреты звука: лакировка",
+                Content = "Лакировка - это не просто финишная обработка, это важный этап в создании звука инструмента. Рассказываем о типах лаков и их влиянии на звучание.",
+                Excerpt = "Как лак влияет на звук инструмента и какой лак выбрать для разных пород дерева.",
+                AuthorId = Guid.Parse("a1b2c3d4-e5f6-7890-abcd-ef1234567890"),
+                ImageUrl = "",
+                ViewsCount = 420,
+                IsPublished = true,
+                PublishedAt = DateTime.Now.AddDays(-10),
+                CreatedAt = DateTime.Now.AddDays(-10)
+            },
+            new BlogArticle
+            {
+                Id = Guid.NewGuid(),
+                Title = "Частые ошибки новичков",
+                Content = "Даже самые опытные музыканты начинали с ошибок. Мы собрали самые распространенные ошибки, которые совершают новички при создании инструментов.",
+                Excerpt = "Как избежать типичных ошибок при первом изготовлении инструмента.",
+                AuthorId = Guid.Parse("a1b2c3d4-e5f6-7890-abcd-ef1234567890"),
+                ImageUrl = "",
+                ViewsCount = 1560,
+                IsPublished = true,
+                PublishedAt = DateTime.Now.AddDays(-5),
+                CreatedAt = DateTime.Now.AddDays(-5)
+            }
+        };
+
+        context.BlogArticles.AddRange(blogArticles);
         context.SaveChanges();
     }
 }

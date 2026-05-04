@@ -1,19 +1,19 @@
-﻿using AutoMapper;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using MelodyHub.Application.CQRS.BlogArticles.Queries.GetBlogArticlesList;
 using MelodyHub.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace MelodyHub.Application.CQRS.BlogArticles.Queries.GetBlogArticlesList;
+namespace MelodyHub.Application.CQRS.BlogArticles.Queries.GetAllBlogArticles;
 
-public class GetBlogArticleListQueryHandler(IMelodyHubDbContext context, IMapper mapper)
-    : IRequestHandler<GetBlogArticleListQuery, BlogArticleListVm>
+public class GetAllBlogArticlesQueryHandler(IMelodyHubDbContext context, IMapper mapper)
+    : IRequestHandler<GetAllBlogArticlesQuery, BlogArticleListVm>
 {
-    public async Task<BlogArticleListVm> Handle(GetBlogArticleListQuery request, CancellationToken cancellationToken)
+    public async Task<BlogArticleListVm> Handle(GetAllBlogArticlesQuery request, CancellationToken cancellationToken)
     {
         var blogArticles = await context.BlogArticles
-            .Include(b => b.Comments)
-            .Where(x => x.AuthorId == request.AuthorId)
+            .Where(x => x.IsPublished)
             .Select(x => new BlogArticleListLookupDto
             {
                 Id = x.Id,
