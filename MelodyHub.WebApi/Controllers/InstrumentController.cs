@@ -4,13 +4,18 @@ using MelodyHub.Application.CQRS.Instruments.Commands.DeleteInstrument;
 using MelodyHub.Application.CQRS.Instruments.Commands.UpdateInstrument;
 using MelodyHub.Application.CQRS.Instruments.Queries.GetInstrumentDetails;
 using MelodyHub.Application.CQRS.Instruments.Queries.GetInstrumentList;
+using MelodyHub.Application.Common.Exceptions;
+using MelodyHub.Domain;
 using MelodyHub.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MelodyHub.Application.Interfaces;
+using MelodyHub.Application.CQRS.Instruments.Commands.UploadInstrumentImage;
 
 namespace MelodyHub.WebApi.Controllers;
 
 [Route("/api/instruments")]
-public class InstrumentController(IMapper mapper) : BaseController
+public class InstrumentController(IMapper mapper, IMelodyHubDbContext context) : BaseController
 {
     [HttpGet]
     public async Task<ActionResult<InstrumentListVm>> Get()
@@ -66,5 +71,37 @@ public class InstrumentController(IMapper mapper) : BaseController
         await Mediator.Send(command);
 
         return NoContent();
+    }
+
+    [HttpPost("{id:guid}/views")]
+    public async Task<ActionResult> IncrementViews(Guid id)
+    {
+        var instrument = await context.Instruments.FindAsync([id])
+            ?? throw new NotFoundException(nameof(Instrument), id);
+
+        instrument.ViewsCount++;
+        await context.SaveChangesAsync(CancellationToken.None);
+
+        return Ok(new { viewsCount = instrument.ViewsCount });
+    }
+
+    [HttpPost("{id:guid}/image")]
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<string>> UploadImage(Guid id, IFormFile file)
+    {
+        if (file is null || file.Length == 0)
+            return BadRequest("Файл не выбран");
+
+        var command = new UploadInstrumentImageCommand
+        {
+            InstrumentId = id,
+            FileStream = file.OpenReadStream(),
+            FileName = file.FileName,
+            ContentType = file.ContentType
+        };
+
+        var url = await Mediator.Send(command);
+
+        return Ok(new { imageUrl = url });
     }
 }

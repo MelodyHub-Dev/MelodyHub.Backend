@@ -1,5 +1,6 @@
 ﻿using MelodyHub.Domain;
 using MelodyHub.Domain.Enums;
+using Microsoft.AspNetCore.Identity;
 
 namespace MelodyHub.Database;
 
@@ -957,7 +958,19 @@ public class DbContextInitializer
             IsVerifiedEmail = true
         };
 
+        var admin = new User
+        {
+            Id = Guid.NewGuid(),
+            Email = "admin@gmail.com",
+            Role = UserRole.Admin,
+            IsVerifiedEmail = true
+        };
+
+        var passwordHasher = new PasswordHasher<User>();
+        admin.PasswordHash = passwordHasher.HashPassword(admin, "admin123");
+
         context.Add(user);
+        context.Add(admin);
         context.SaveChanges();
 
         var blogArticles = new List<BlogArticle>

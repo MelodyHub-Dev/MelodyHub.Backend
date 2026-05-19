@@ -12,6 +12,7 @@ public class UserListLookupDto : IMapWith<User>
     public string Username { get; set; } = string.Empty;
     public UserRole Role { get; set; } = UserRole.User;
     public bool IsVerifiedEmail { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public void Mapping(Profile profile)
         => profile.CreateMap<User, UserListLookupDto>();

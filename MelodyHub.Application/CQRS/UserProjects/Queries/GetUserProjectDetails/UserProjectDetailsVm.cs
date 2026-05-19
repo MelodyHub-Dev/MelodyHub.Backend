@@ -9,7 +9,9 @@ public class UserProjectDetailsVm : IMapWith<UserProject>
 {
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
+    public string AuthorName { get; set; } = string.Empty;
     public Guid InstrumentId { get; set; }
+    public string InstrumentName { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public ProjectStatus Status { get; set; } = ProjectStatus.Planned;

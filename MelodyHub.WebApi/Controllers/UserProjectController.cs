@@ -2,6 +2,8 @@
 using MelodyHub.Application.CQRS.UserProjects.Commands.CreateUserProject;
 using MelodyHub.Application.CQRS.UserProjects.Commands.DeleteUserProject;
 using MelodyHub.Application.CQRS.UserProjects.Commands.UpdateUserProject;
+using MelodyHub.Application.CQRS.UserProjects.Queries.GetAllUserProjects;
+using MelodyHub.Application.CQRS.UserProjects.Queries.GetUserProjectById;
 using MelodyHub.Application.CQRS.UserProjects.Queries.GetUserProjectDetails;
 using MelodyHub.Application.CQRS.UserProjects.Queries.GetUserProjectList;
 using MelodyHub.WebApi.Models;
@@ -26,6 +28,19 @@ public class UserProjectController(IMapper mapper) : BaseController
         return Ok(userProject);
     }
 
+    [HttpGet("public/{id:guid}")]
+    public async Task<ActionResult<UserProjectDetailsVm>> GetPublicById(Guid id)
+    {
+        var query = new GetUserProjectByIdQuery
+        {
+            Id = id
+        };
+
+        var userProject = await Mediator.Send(query);
+
+        return Ok(userProject);
+    }
+
     [HttpGet("user/{id:guid}")]
     public async Task<ActionResult<UserProjectListVm>> GetByUserId(Guid id, [FromQuery] Guid? instrumentId)
     {
@@ -38,6 +53,16 @@ public class UserProjectController(IMapper mapper) : BaseController
         var userProejects = await Mediator.Send(query);
 
         return Ok(userProejects);
+    }
+
+    [HttpGet("all")]
+    public async Task<ActionResult<UserProjectListVm>> GetAll()
+    {
+        var query = new GetAllUserProjectsQuery();
+
+        var userProjects = await Mediator.Send(query);
+
+        return Ok(userProjects);
     }
 
     [HttpPost("create")]
