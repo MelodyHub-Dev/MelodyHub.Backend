@@ -6,6 +6,8 @@ using MelodyHub.Application.CQRS.Blueprints.Queries.GetBlueprintDetails;
 using MelodyHub.Application.CQRS.Blueprints.Queries.GetBlueprintList;
 using MelodyHub.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using MelodyHub.Application.CQRS.Blueprints.Commands.UploadBlueprintImage;
+using MelodyHub.Application.CQRS.Blueprints.Commands.UploadBlueprintVideo;
 
 namespace MelodyHub.WebApi.Controllers;
 
@@ -47,7 +49,7 @@ public class BlueprintController(IMapper mapper) : BaseController
 
         return Ok(blueprintId);
     }
-    
+
     [HttpPut("update")]
     public async Task<ActionResult> Update([FromBody] UpdateBlueprintDto dto)
     {
@@ -70,5 +72,45 @@ public class BlueprintController(IMapper mapper) : BaseController
         await Mediator.Send(command);
 
         return NoContent();
+    }
+
+    [HttpPost("{id:guid}/image")]
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<string>> UploadImage(Guid id, IFormFile file)
+    {
+        if (file is null || file.Length == 0)
+            return BadRequest("Файл не выбран");
+
+        var command = new UploadBlueprintImageCommand
+        {
+            BlueprintId = id,
+            FileStream = file.OpenReadStream(),
+            FileName = file.FileName,
+            ContentType = file.ContentType
+        };
+
+        var url = await Mediator.Send(command);
+
+        return Ok(new { imageUrl = url });
+    }
+
+    [HttpPost("{id:guid}/video")]
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<string>> UploadVideo(Guid id, IFormFile file)
+    {
+        if (file is null || file.Length == 0)
+            return BadRequest("Файл не выбран");
+
+        var command = new UploadBlueprintVideoCommand
+        {
+            BlueprintId = id,
+            FileStream = file.OpenReadStream(),
+            FileName = file.FileName,
+            ContentType = file.ContentType
+        };
+
+        var url = await Mediator.Send(command);
+
+        return Ok(new { videoUrl = url });
     }
 }

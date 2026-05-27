@@ -10,7 +10,6 @@ public class InstrumentEntityTypeConfiguration : IEntityTypeConfiguration<Instru
     {
         builder.HasKey(i => i.Id);
 
-        builder.HasIndex(i => i.Name).IsUnique();
         builder.HasIndex(i => i.CategoryId);
         builder.HasIndex(i => i.Difficulty);
 

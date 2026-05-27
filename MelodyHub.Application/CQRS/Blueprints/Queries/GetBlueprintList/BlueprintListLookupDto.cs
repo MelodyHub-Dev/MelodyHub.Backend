@@ -7,6 +7,7 @@ namespace MelodyHub.Application.CQRS.Blueprints.Queries.GetBlueprintList;
 public class BlueprintListLookupDto : IMapWith<Blueprint>
 {
     public Guid Id { get; set; }
+    public Guid InstrumentId { get; set; }
     public string Title { get; set; } = string.Empty;
     public int StepNumber { get; set; }
     public string? ImageUrl { get; set; }

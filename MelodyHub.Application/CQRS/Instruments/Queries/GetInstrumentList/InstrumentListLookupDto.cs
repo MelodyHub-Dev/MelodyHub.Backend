@@ -14,6 +14,7 @@ public class InstrumentListLookupDto : IMapWith<Instrument>
     public DifficultyLevel Difficulty { get; set; } = DifficultyLevel.Intermediate;
     public int? EstimatedHours { get; set; }
     public int ViewsCount { get; set; }
+    public string? MainImageUrl { get; set; }
 
     public void Mapping(Profile profile)
         => profile.CreateMap<Instrument, InstrumentListLookupDto>();

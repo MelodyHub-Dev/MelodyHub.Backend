@@ -16,7 +16,7 @@ public class UpdateMaterialCommandValidator
             .NotEmpty().WithMessage("Material name is required")
             .MaximumLength(200).WithMessage("Material name must not exceed 200 characters")
             .MinimumLength(2).WithMessage("Material name must be at least 2 characters long")
-            .Matches(@"^[a-zA-Z0-9\s\-_,.()&/]+$")
+            .Matches(@"^[\p{L}0-9\s\-_,.()&/]+$")
             .WithMessage("Material name can only contain letters, numbers, spaces, hyphens, commas, periods, parentheses, ampersands, and forward slashes");
 
         RuleFor(x => x.Description)
@@ -35,7 +35,7 @@ public class UpdateMaterialCommandValidator
         RuleFor(x => x.Category)
             .MaximumLength(100).WithMessage("Category must not exceed 100 characters")
             .When(x => !string.IsNullOrWhiteSpace(x.Category))
-            .Matches(@"^[a-zA-Z0-9\s\-_&]+$")
+            .Matches(@"^[\p{L}0-9\s\-_&]+$")
             .WithMessage("Category can only contain letters, numbers, spaces, hyphens, underscores, and ampersands")
             .When(x => !string.IsNullOrWhiteSpace(x.Category));
     }

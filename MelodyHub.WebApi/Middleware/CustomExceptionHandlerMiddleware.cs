@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MelodyHub.Application.Common.Exceptions;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 
@@ -34,8 +35,13 @@ public class CustomExceptionHandlerMiddleware(RequestDelegate next)
             case NotFoundException:
                 code = HttpStatusCode.NotFound;
                 break;
-            case ValidationException:
+            case ValidationException validationException:
                 code = HttpStatusCode.BadRequest;
+                result = JsonSerializer.Serialize(new
+                {
+                    error = validationException.Message,
+                    errors = validationException.Errors.Select(e => new { e.PropertyName, e.ErrorMessage })
+                });
                 break;
         }
         context.Response.ContentType = "application/json";
@@ -43,7 +49,7 @@ public class CustomExceptionHandlerMiddleware(RequestDelegate next)
 
         if (result == string.Empty)
         {
-            result = JsonSerializer.Serialize(new { errpr = exception.Message });
+            result = JsonSerializer.Serialize(new { error = exception.Message });
         }
 
         return context.Response.WriteAsync(result);

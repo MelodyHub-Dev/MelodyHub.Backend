@@ -15,7 +15,7 @@ public class UpdateInstrumentCommandValidator
             .MaximumLength(200).WithMessage("Instrument name must not exceed 200 characters")
             .MinimumLength(2).WithMessage("Instrument name must be at least 2 characters long")
             .When(x => !string.IsNullOrWhiteSpace(x.Name))
-            .Matches(@"^[a-zA-Z0-9\s\-_&.,'()/]+$")
+            .Matches(@"^[\p{L}0-9\s\-_&.,'()/]+$")
             .WithMessage("Name can only contain letters, numbers, spaces, hyphens, underscores, ampersands, dots, commas, apostrophes, parentheses, and forward slashes")
             .When(x => !string.IsNullOrWhiteSpace(x.Name));
 

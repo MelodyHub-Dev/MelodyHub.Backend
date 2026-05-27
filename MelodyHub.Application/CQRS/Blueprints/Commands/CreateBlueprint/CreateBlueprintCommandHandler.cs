@@ -2,6 +2,7 @@
 using MelodyHub.Application.Common.Exceptions;
 using MelodyHub.Application.Interfaces;
 using MelodyHub.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace MelodyHub.Application.CQRS.Blueprints.Commands.CreateBlueprint;
 
@@ -10,6 +11,13 @@ public class CreateBlueprintCommandHandler(IMelodyHubDbContext context)
 {
     public async Task<Guid> Handle(CreateBlueprintCommand request, CancellationToken cancellationToken)
     {
+        // Проверяем, не существует ли уже шаг с таким номером для этого инструмента
+        var exists = await context.Blueprints
+            .AnyAsync(b => b.InstrumentId == request.InstrumentId && b.StepNumber == request.StepNumber, cancellationToken);
+
+        if (exists)
+            throw new BadRequestException("Шаг с таким номером уже существует");
+
         var instrument = await context.Instruments
             .FindAsync([request.InstrumentId], cancellationToken)
             ?? throw new NotFoundException(nameof(Instrument), request.InstrumentId);
