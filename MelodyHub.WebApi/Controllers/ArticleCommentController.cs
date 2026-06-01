@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using MelodyHub.Application.CQRS.ArticleComments.Commands.ApproveArticleComment;
 using MelodyHub.Application.CQRS.ArticleComments.Commands.CreateArticleComment;
 using MelodyHub.Application.CQRS.ArticleComments.Commands.DeleteArticleComment;
 using MelodyHub.Application.CQRS.ArticleComments.Commands.UpdateArticleComment;
 using MelodyHub.Application.CQRS.ArticleComments.Queries.GetArticleCommentList;
+using MelodyHub.Application.CQRS.ArticleComments.Queries.GetPendingArticleCommentList;
 using MelodyHub.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +40,25 @@ public class ArticleCommentController(IMapper mapper) : BaseController
     public async Task<ActionResult> Update([FromBody] UpdateArticleCommentDto dto)
     {
         var command = mapper.Map<UpdateArticleCommentCommand>(dto);
+
+        await Mediator.Send(command);
+
+        return NoContent();
+    }
+
+    [HttpGet("pending")]
+    public async Task<ActionResult<ArticleCommentListVm>> GetPending()
+    {
+        var query = new GetPendingArticleCommentListQuery();
+        var pendingComments = await Mediator.Send(query);
+
+        return Ok(pendingComments);
+    }
+
+    [HttpPut("approve/{id:guid}")]
+    public async Task<ActionResult> Approve(Guid id)
+    {
+        var command = new ApproveArticleCommentCommand { Id = id };
 
         await Mediator.Send(command);
 

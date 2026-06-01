@@ -23,7 +23,8 @@ public class StatisticsController : BaseController
             Articles = await _context.BlogArticles.CountAsync(),
             Projects = await _context.UserProjects.CountAsync(),
             Instruments = await _context.Instruments.CountAsync(),
-            Instructions = await _context.Blueprints.CountAsync()
+            Instructions = await _context.Blueprints.CountAsync(),
+            PendingComments = await _context.ArticleComments.CountAsync(c => !c.IsApproved)
         };
 
         return Ok(stats);
@@ -37,4 +38,5 @@ public class StatisticsDto
     public int Projects { get; set; }
     public int Instruments { get; set; }
     public int Instructions { get; set; }
+    public int PendingComments { get; set; }
 }

@@ -25,7 +25,8 @@ public class GetInstrumentMaterialListQueryHandler(IMelodyHubDbContext context)
                 Quantity = im.Quantity,
                 Notes = im.Notes,
                 MaterialUnitPrice = im.Material.AvgPrice,
-                MaterialUnit = im.Material.Unit.ToString()
+                MaterialUnit = im.Material.Unit.ToString(),
+                MaterialImageUrl = im.Material.ImageUrl
             })
             .OrderBy(dto => dto.InstrumentName)
             .ThenBy(dto => dto.MaterialName)

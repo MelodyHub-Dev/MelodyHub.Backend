@@ -12,7 +12,7 @@ public class UpdateBlogArticleDto : IMapWith<UpdateBlogArticleCommand>
     public string? Excerpt { get; set; }
     public string? ImageUrl { get; set; }
     public int ViewsCount { get; set; }
-    public bool IsPublished { get; set; }
+    public bool? IsPublished { get; set; }
 
     public void Mapping(Profile profile)
         => profile.CreateMap<UpdateBlogArticleDto, UpdateBlogArticleCommand>();

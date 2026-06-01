@@ -30,6 +30,9 @@ public class MaterialEntityTypeConfiguration : IEntityTypeConfiguration<Material
         builder.Property(m => m.Category)
             .HasMaxLength(200);
 
+        builder.Property(m => m.ImageUrl)
+            .HasMaxLength(500);
+
         builder.HasMany(m => m.InstrumentMaterials)
             .WithOne(im => im.Material)
             .HasForeignKey(im => im.MaterialId)

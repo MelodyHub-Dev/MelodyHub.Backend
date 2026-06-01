@@ -19,7 +19,12 @@ public class UpdateMaterialCommandHandler(IMelodyHubDbContext context)
         material.Unit = request.Unit;
         material.AvgPrice = request.AvgPrice;
         material.Category = request.Category;
-        
+
+        if (request.ImageUrl is not null)
+        {
+            material.ImageUrl = request.ImageUrl;
+        }
+
         await context.SaveChangesAsync(cancellationToken);
     }
 }

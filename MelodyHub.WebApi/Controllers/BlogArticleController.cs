@@ -42,9 +42,12 @@ public class BlogArticleController(IMapper mapper) : BaseController
     }
 
     [HttpGet("all")]
-    public async Task<ActionResult<BlogArticleListVm>> GetAll()
+    public async Task<ActionResult<BlogArticleListVm>> GetAll([FromQuery] bool? isPublished = null)
     {
-        var query = new GetAllBlogArticlesQuery();
+        var query = new GetAllBlogArticlesQuery
+        {
+            IsPublished = isPublished
+        };
 
         var blogArticles = await Mediator.Send(query);
 

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using MelodyHub.Application.Interfaces;
+using MelodyHub.Application.Interfaces; 
 using MelodyHub.Domain;
 
 namespace MelodyHub.Application.CQRS.Materials.Commands.CreateMaterial;
@@ -17,6 +17,7 @@ public class CreateMaterialCommandHandler(IMelodyHubDbContext context)
             Unit = request.Unit,
             AvgPrice = request.AvgPrice,
             Category = request.Category,
+            ImageUrl = request.ImageUrl,
             CreatedAt = DateTime.UtcNow
         };
 

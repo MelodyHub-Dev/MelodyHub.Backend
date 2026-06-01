@@ -34,5 +34,11 @@ public class CreateMaterialCommandValidator
             .Matches(@"^[\p{L}0-9\s\-_&]+$")
             .WithMessage("Category can only contain letters, numbers, spaces, hyphens, underscores, and ampersands")
             .When(x => !string.IsNullOrWhiteSpace(x.Category));
+
+        RuleFor(x => x.ImageUrl)
+            .MaximumLength(500).WithMessage("Image URL must not exceed 500 characters")
+            .Must(uri => string.IsNullOrWhiteSpace(uri) || Uri.IsWellFormedUriString(uri, UriKind.Absolute))
+            .WithMessage("Image URL must be a valid absolute URL")
+            .When(x => !string.IsNullOrWhiteSpace(x.ImageUrl));
     }
 }

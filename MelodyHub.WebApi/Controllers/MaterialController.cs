@@ -2,9 +2,11 @@
 using MelodyHub.Application.CQRS.Materials.Commands.CreateMaterial;
 using MelodyHub.Application.CQRS.Materials.Commands.DeleteMaterial;
 using MelodyHub.Application.CQRS.Materials.Commands.UpdateMaterial;
+using MelodyHub.Application.CQRS.Materials.Commands.UploadMaterialImage;
 using MelodyHub.Application.CQRS.Materials.Queries.GetMaterialDetails;
 using MelodyHub.Application.CQRS.Materials.Queries.GetMaterialList;
 using MelodyHub.WebApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MelodyHub.WebApi.Controllers;
@@ -53,6 +55,26 @@ public class MaterialController(IMapper mapper) : BaseController
         await Mediator.Send(command);
 
         return NoContent();
+    }
+
+    [HttpPost("{id:guid}/image")]
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult> UploadImage(Guid id, IFormFile file)
+    {
+        if (file is null || file.Length == 0)
+            return BadRequest("Файл не выбран");
+
+        var command = new UploadMaterialImageCommand
+        {
+            MaterialId = id,
+            FileStream = file.OpenReadStream(),
+            FileName = file.FileName,
+            ContentType = file.ContentType
+        };
+
+        var url = await Mediator.Send(command);
+
+        return Ok(new { imageUrl = url });
     }
 
     [HttpDelete("delete/{id:guid}")]

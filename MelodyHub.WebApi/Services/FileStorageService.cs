@@ -165,6 +165,44 @@ public class FileStorageService(IWebHostEnvironment env, IHttpContextAccessor ht
         return Task.CompletedTask;
     }
 
+    public async Task<string> SaveMaterialImageAsync(
+        Guid materialId, Stream stream, string fileName, CancellationToken ct = default)
+    {
+        var ext = Path.GetExtension(fileName).ToLowerInvariant();
+        if (string.IsNullOrEmpty(ext)) ext = ".jpg";
+
+        var dir = Path.Combine(env.WebRootPath, "materials");
+        Directory.CreateDirectory(dir);
+
+        var storedName = $"{materialId}{ext}";
+        var fullPath = Path.Combine(dir, storedName);
+
+        await using var fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write);
+        await stream.CopyToAsync(fs, ct);
+
+        var request = httpContextAccessor.HttpContext?.Request;
+        var baseUrl = request is not null
+            ? $"{request.Scheme}://{request.Host}"
+            : string.Empty;
+
+        return $"{baseUrl}/materials/{storedName}";
+    }
+
+    public Task DeleteMaterialImageAsync(string? imageUrl, CancellationToken ct = default)
+    {
+        if (string.IsNullOrEmpty(imageUrl)) return Task.CompletedTask;
+
+        try
+        {
+            var fileName = Path.GetFileName(new Uri(imageUrl).LocalPath);
+            var fullPath = Path.Combine(env.WebRootPath, "materials", fileName);
+            if (File.Exists(fullPath)) File.Delete(fullPath);
+        }
+        catch { }
+
+        return Task.CompletedTask;
+    }
+
     public async Task<string> SaveBlueprintVideoAsync(
         Guid blueprintId, Stream stream, string fileName, CancellationToken ct = default)
     {

@@ -10,5 +10,5 @@ public class UpdateBlogArticleCommand : IRequest
     public string? Excerpt { get; set; }
     public string? ImageUrl { get; set; }
     public int ViewsCount { get; set; }
-    public bool IsPublished { get; set; }
+    public bool? IsPublished { get; set; }
 }

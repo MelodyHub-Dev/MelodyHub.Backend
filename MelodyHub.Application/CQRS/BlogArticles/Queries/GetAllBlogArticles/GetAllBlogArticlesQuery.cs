@@ -5,4 +5,5 @@ namespace MelodyHub.Application.CQRS.BlogArticles.Queries.GetAllBlogArticles;
 
 public class GetAllBlogArticlesQuery : IRequest<BlogArticleListVm>
 {
+    public bool? IsPublished { get; set; }
 }

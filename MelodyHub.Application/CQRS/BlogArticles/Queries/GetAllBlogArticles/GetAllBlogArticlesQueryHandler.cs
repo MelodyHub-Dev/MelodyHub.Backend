@@ -12,8 +12,14 @@ public class GetAllBlogArticlesQueryHandler(IMelodyHubDbContext context, IMapper
 {
     public async Task<BlogArticleListVm> Handle(GetAllBlogArticlesQuery request, CancellationToken cancellationToken)
     {
-        var blogArticles = await context.BlogArticles
-            .Where(x => x.IsPublished)
+        var query = context.BlogArticles.AsQueryable();
+
+        if (request.IsPublished.HasValue)
+        {
+            query = query.Where(x => x.IsPublished == request.IsPublished.Value);
+        }
+
+        var blogArticles = await query
             .Select(x => new BlogArticleListLookupDto
             {
                 Id = x.Id,

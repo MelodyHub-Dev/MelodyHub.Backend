@@ -26,6 +26,12 @@ public interface IFileStorageService
     /// <summary>Удаляет изображение шага инструкции по URL (если существует)</summary>
     Task DeleteBlueprintImageAsync(string? imageUrl, CancellationToken ct = default);
 
+    /// <summary>Сохраняет изображение материала и возвращает публичный URL</summary>
+    Task<string> SaveMaterialImageAsync(Guid materialId, Stream stream, string fileName, CancellationToken ct = default);
+
+    /// <summary>Удаляет изображение материала по URL (если существует)</summary>
+    Task DeleteMaterialImageAsync(string? imageUrl, CancellationToken ct = default);
+
     /// <summary>Сохраняет видео шага инструкции и возвращает публичный URL</summary>
     Task<string> SaveBlueprintVideoAsync(Guid blueprintId, Stream stream, string fileName, CancellationToken ct = default);
 

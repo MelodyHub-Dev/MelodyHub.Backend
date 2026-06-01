@@ -10,5 +10,6 @@ public class InstrumentMaterialListLookupDto
     public string? Notes { get; set; }
     public decimal MaterialUnitPrice { get; set; }
     public string MaterialUnit { get; set; } = string.Empty;
+    public string? MaterialImageUrl { get; set; }
     public decimal TotalCost => Quantity * MaterialUnitPrice;
 }

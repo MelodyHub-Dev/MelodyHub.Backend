@@ -27,15 +27,17 @@ public class UpdateBlogArticleCommandHandler(IMelodyHubDbContext context)
         if (request.ImageUrl != null)
             blogArticle.ImageUrl = request.ImageUrl;
 
-        // ViewsCount и IsPublished обновляем только если явно переданы (не значения по умолчанию)
-        // Для этого используем флаг в запросе или проверяем, что значение отличается от текущего
+        // ViewsCount и IsPublished обновляем только если явно переданы.
         if (request.ViewsCount > 0)
             blogArticle.ViewsCount = request.ViewsCount;
 
-        blogArticle.IsPublished = true;
+        if (request.IsPublished.HasValue)
+        {
+            blogArticle.IsPublished = request.IsPublished.Value;
 
-        if (blogArticle.IsPublished && blogArticle.PublishedAt == null)
-            blogArticle.PublishedAt = DateTime.UtcNow;
+            if (blogArticle.IsPublished && blogArticle.PublishedAt == null)
+                blogArticle.PublishedAt = DateTime.UtcNow;
+        }
 
         blogArticle.UpdatedAt = DateTime.UtcNow;
 

@@ -12,8 +12,9 @@ public class GetArticleCommentListQueryHandler(IMelodyHubDbContext context, IMap
     public async Task<ArticleCommentListVm> Handle(GetArticleCommentListQuery request, CancellationToken cancellationToken)
     {
         var articleComments = await context.ArticleComments
-            .Where(x => x.ArticleId == request.ArticleId)
+            .Where(x => x.ArticleId == request.ArticleId && x.IsApproved)
             .Include(x => x.User)
+            .Include(x => x.Article)
             .OrderByDescending(x => x.CreatedAt)
             .ProjectTo<ArticleCommentListLookupDto>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);

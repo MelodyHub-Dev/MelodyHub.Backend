@@ -11,4 +11,5 @@ public class UpdateMaterialCommand : IRequest
     public MaterialUnit Unit { get; set; } = MaterialUnit.Piece;
     public decimal AvgPrice { get; set; }
     public string? Category { get; set; }
+    public string? ImageUrl { get; set; }
 }

@@ -22,7 +22,7 @@ public class CreateBlogArticleCommandHandler(IMelodyHubDbContext context)
             Excerpt = request.Excerpt,
             AuthorId = author.Id,
             ImageUrl = request.ImageUrl,
-            IsPublished = true,
+            IsPublished = false,
             PublishedAt = DateTime.UtcNow,
             ViewsCount = 0,
             CreatedAt = DateTime.UtcNow,

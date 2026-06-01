@@ -13,6 +13,7 @@ public class UpdateMaterialDto : IMapWith<UpdateMaterialCommand>
     public MaterialUnit Unit { get; set; } = MaterialUnit.Piece;
     public decimal AvgPrice { get; set; }
     public string? Category { get; set; }
+    public string? ImageUrl { get; set; }
 
     public void Mapping(Profile profile)
         => profile.CreateMap<UpdateMaterialDto, UpdateMaterialCommand>();
